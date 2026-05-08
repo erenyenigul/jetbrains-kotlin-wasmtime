@@ -1,7 +1,13 @@
 # Kotlin WASI w/ Wasmtime 
 
-Run with the following commands:
+Run one the following commands for interactive execution:
 
-`./gradlew wasmWasiWasmtimeProductionRun`
-`./gradlew wasmWasiWasmtimeDevelopmentRun`
+`./gradlew wasmWasiWasmtimeProductionRun --no-daemon` 
+or
+`./gradlew wasmWasiWasmtimeDevelopmentRun --no-daemon`
   
+Or you can simply pipe an `echo` command:
+
+`echo 'hello' | ./gradlew wasmWasiWasmtimeProductionRun`
+or
+`echo 'hello' | ./gradlew wasmWasiWasmtimeDevelopmentRun`
