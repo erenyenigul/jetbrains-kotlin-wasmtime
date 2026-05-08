@@ -129,12 +129,8 @@ fun Project.createWasmtimeExec(
 
         taskGroup?.let { group = it }
         description = "Executes with Wasmtime"
-        executable = wasmtimeExecutable().absolutePath
 
         standardInput = System.`in`
-        if (invokeFunction == null) {
-            standardInput = System.`in`
-        }
 
         doFirst {
             val newArgs = mutableListOf<String>()
@@ -148,14 +144,13 @@ fun Project.createWasmtimeExec(
 
             newArgs.add(wasmFileName.get())
 
+            executable = wasmtimeExecutable().absolutePath
             args(newArgs)
             workingDir(outputDirectory)
             environment("RUST_BACKTRACE", "full")
         }
     }
 }
-
-// Hook into test tasks — use --invoke startUnitTests (no stdin needed)
 
 tasks.withType<KotlinJsTest>().all {
     val wasmtimeRunTask = createWasmtimeExec(
@@ -171,8 +166,6 @@ tasks.withType<KotlinJsTest>().all {
         dependsOn(wasmtimeRunTask)
     }
 }
-
-// Hook into run tasks — WASI _start → main(), stdin works
 
 tasks.withType<NodeJsExec>().all {
     val wasmtimeRunTask = createWasmtimeExec(
